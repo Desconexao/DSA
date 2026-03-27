@@ -2,64 +2,72 @@
 #include <stdlib.h>
 
 typedef long KeyType;
-typedef struct Register {
+typedef struct REGISTER {
     KeyType Key;
-} Register;
+} REGISTER;
 
-typedef struct Node {
-    Register Reg;
-    struct Node *pEsq, *pDir;
-} Node;
+typedef struct NODE {
+    REGISTER Reg;
+    struct NODE *left, *right;
+} NODE;
 
-void init(Node **raiz);
-Node *search(KeyType key, Node *node);
-void add(Register key, Node *node);
-void delete(KeyType key, Node *node);
+void init(NODE **root);
+NODE *search(KeyType key, NODE *node);
+void add(REGISTER reg, NODE **node);
+void delete(KeyType key, NODE **node);
 
 int main() {
-    Node *arvore = NULL;
+    NODE *tree = NULL;
 
-    Register r1 = {10};
-    Register r2 = {5};
-    Register r3 = {15};
+    REGISTER r1 = {10};
+    REGISTER r2 = {5};
+    REGISTER r3 = {15};
 
-    add(r1, arvore);
-    add(r2, arvore);
-    add(r3, arvore);
-    Node *search = search(5, arvore);
-    printf("Register: %ld", search->Reg.Key);
+    add(r1, &tree);
+    add(r2, &tree);
+    add(r3, &tree);
+
+    NODE *result = search(5, tree);
+
+    if (result != NULL) {
+        printf("REGISTER found: %ld\n", result->Reg.Key);
+    } else {
+        printf("REGISTER not found.\n");
+    }
+
+    return 0;
 }
 
-void init(Node **raiz) { *raiz = NULL; }
+void init(NODE **root) { *root = NULL; }
 
-Node *search(KeyType key, Node *node) {
+NODE *search(KeyType key, NODE *node) {
     if (node == NULL)
         return NULL;
 
     if (key < node->Reg.Key)
-        return search(key, node->pEsq);
+        return search(key, node->left);
 
     if (key > node->Reg.Key)
-        return search(key, node->pDir);
+        return search(key, node->right);
 
     return node;
 }
 
-void add(Register registro, Node *node) {
-    if (node == NULL) {
-        node = (Node *)malloc(sizeof(Node));
-        node->Reg = registro;
-        node->pEsq = NULL;
-        node->pDir = NULL;
+void add(REGISTER reg, NODE **node) {
+    if (*node == NULL) {
+        *node = (NODE *)malloc(sizeof(NODE));
+        (*node)->Reg = reg;
+        (*node)->left = NULL;
+        (*node)->right = NULL;
         return;
     }
 
-    if (registro.Key < node->Reg.Key)
-        add(registro, node->pEsq);
-    else if (registro.Key > node->Reg.Key)
-        add(registro, node->pDir);
+    if (reg.Key < (*node)->Reg.Key)
+        add(reg, &((*node)->left));
+    else if (reg.Key > (*node)->Reg.Key)
+        add(reg, &((*node)->right));
     else
-        printf("Erro: Register já existe\n");
+        printf("Error: REGISTER already exists\n");
 }
 
-void delete(KeyType key, Node *node) {}
+void delete(KeyType key, NODE **node) {}
