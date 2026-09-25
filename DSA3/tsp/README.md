@@ -3,8 +3,8 @@
 ## Compilar
 
 ```bash
-gcc -O2 main.c -o main
-gcc -O2 main_lowerbound.c -o main_lowerbound
+gcc main.c -o main
+gcc  main_lowerbound.c -o main_lowerbound
 ```
 
 ## Rodar
