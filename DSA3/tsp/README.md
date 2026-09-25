@@ -4,7 +4,7 @@
 
 ```bash
 gcc main.c -o main
-gcc  main_lowerbound.c -o main_lowerbound
+gcc main_lowerbound.c -o main_lowerbound
 ```
 
 ## Rodar
